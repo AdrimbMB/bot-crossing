@@ -1,13 +1,14 @@
 import http from 'node:http'
 import fsp from 'node:fs/promises'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { fileURLToPath } from 'node:url'
 import { apiMiddleware } from './api.mjs'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const DIST = path.join(here, '..', 'dist')
-const PORT = Number(process.env.PORT) || 5274
-const HOST = process.env.BOT_CROSSING_HOST || '127.0.0.1'
+const DEFAULT_PORT = Number(process.env.PORT) || 5274
+const DEFAULT_HOST = process.env.BOT_CROSSING_HOST || '127.0.0.1'
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -27,7 +28,8 @@ function resolveInDist(pathname) {
   return file === DIST || file.startsWith(DIST + path.sep) ? file : null
 }
 
-const server = http.createServer(async (req, res) => {
+export function createServer() {
+  return http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost')
 
   if (url.pathname.startsWith('/api/')) {
@@ -56,8 +58,24 @@ const server = http.createServer(async (req, res) => {
   } catch {
     res.writeHead(404, { 'Content-Type': 'text/plain' }).end('Not found')
   }
-})
+  })
+}
 
-server.listen(PORT, HOST, () => {
-  console.log(`Bot Crossing → http://${HOST}:${PORT}`)
-})
+export function startServer({ port = DEFAULT_PORT, host = DEFAULT_HOST } = {}) {
+  const server = createServer()
+  return new Promise((resolve, reject) => {
+    server.once('error', reject)
+    server.listen(port, host, () => {
+      server.off('error', reject)
+      const address = server.address()
+      const actualPort = typeof address === 'object' && address ? address.port : port
+      resolve({ server, url: `http://${host}:${actualPort}` })
+    })
+  })
+}
+
+const isDirectRun = process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url
+if (isDirectRun) {
+  const { url } = await startServer()
+  console.log(`Bot Crossing → ${url}`)
+}

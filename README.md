@@ -27,6 +27,24 @@ second process. For a built version, `npm start` (build + serve) or `npm run ser
 `dist/` already exists. Binds to `127.0.0.1` by default, and answers only its own page — see
 [Keeping it local](#keeping-it-local).
 
+## Install the Windows desktop app
+
+Download `AgentCity-Setup-1.0.0.exe` from the GitHub release or build it with
+`npm run desktop:installer`, then double-click it. The assisted installer needs no administrator
+access, lets you choose the destination, and adds Desktop and Start Menu shortcuts. The app opens
+in its own window and starts its local server automatically; users do not need Node.js to run the
+installed application.
+
+Windows may show a SmartScreen warning because this first installer is not code-signed. AgentCity
+works offline, sends no telemetry, and stores writable colony state in the current Windows user's
+application-data folder. Existing agent tools such as Codex, Claude Code, and Cursor remain
+separate installations.
+
+For development, `npm run desktop` opens the native app. `npm run desktop:icons` regenerates the
+Windows `.ico` from the checked-in PNG master. Packaging scope is in
+[DESKTOP_PACKAGING_PLAN.md](DESKTOP_PACKAGING_PLAN.md), and the decisions behind it are recorded
+in [ARCHITECTURE_DESKTOP.md](ARCHITECTURE_DESKTOP.md).
+
 **macOS, Linux and Windows.** Opening a thread, revealing a folder and starting a new session
 all go through a `harness://` deep link handed to the OS opener — `open(1)` on macOS,
 `xdg-open` on Linux, ShellExecute on Windows. The scanning half was portable already. On Linux,
