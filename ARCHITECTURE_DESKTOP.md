@@ -33,10 +33,22 @@ already-created desktop state is never overwritten.
 
 `electron-builder` produces an NSIS assisted installer. It requires no administrator elevation,
 offers an installation location, creates Start Menu and Desktop shortcuts, and registers a clean
-uninstall entry. Automatic updates and code signing are intentionally deferred: releases are
-manual and the first unsigned installer may show a Windows SmartScreen warning. A Windows-only
-resource step applies the executable metadata and icon without pulling in a cross-platform signing
-bundle whose macOS symlinks require Windows Developer Mode.
+uninstall entry. Automatic updates remain deferred. Local builds use a Windows-only resource step;
+public builds use a separate fail-closed command that signs and verifies both the application and
+installer. The published `1.0.0` artifact predates that signing path and remains unsigned.
+
+### Public distribution has separate Store and direct-download paths
+
+The Microsoft Store configuration produces an AppX package using the exact identity assigned in
+Partner Center; Microsoft certifies and signs the accepted Store artifact. It never stores account
+credentials or guessed publisher identifiers in source. The direct NSIS path remains available for
+the website and GitHub, but its public build requires Authenticode signing and post-build signature
+verification. Both packages explicitly include the upstream MIT licence, fork notice, privacy
+notice, and third-party licence texts.
+
+Packaging uses the modern zip/tar-based Windows Kits and NSIS toolsets exposed by the latest stable
+Electron Builder 26 release. This avoids the legacy signing archive's Windows symlink requirement
+without adopting the prerelease Electron Builder 27 toolchain.
 
 ### Private data is excluded by construction
 
@@ -53,6 +65,7 @@ The mascot is an original robot/astronaut with a city motif and no third-party b
 ## Consequences and follow-ups
 
 - Windows x64 is the verified first target; macOS/Linux packages can reuse the shell later.
-- A public release should add Authenticode signing before promising a warning-free install.
+- Direct public releases require Authenticode signing, but signing alone cannot promise a
+  warning-free first download. Microsoft Store distribution is required for that promise.
 - Auto-update remains out of scope until a trusted release channel and signing process exist.
 - Installed agent harnesses remain separate prerequisites; AgentCity does not bundle them.

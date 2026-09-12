@@ -7,8 +7,14 @@ This document tracks the implemented desktop version of AgentCity on the branch
 
 Implemented on Windows x64. The Electron shell, per-user storage and migration, original icon,
 NSIS installer, privacy allow-list, automated tests, and documentation are complete. The verified
-installer output is `release/AgentCity-Setup-1.0.0.exe`. Code signing and automatic updates remain
-explicit follow-ups rather than release blockers for this local first version.
+local validation output is `release/AgentCity-Setup-1.1.0.exe`. It is intentionally not a public
+release because no publisher certificate was supplied. A fail-closed Authenticode build and
+verification path is prepared; it still requires the publisher's verified signing identity.
+Automatic updates remain an explicit follow-up.
+
+Version `1.1.0` adds a Store-targeted package, public metadata for the independent AgentCity fork,
+packaged legal notices, privacy and security documentation, and release due diligence. Final Store
+certification remains dependent on Partner Center identity values supplied by the publisher.
 
 ## Objective
 
@@ -81,7 +87,7 @@ the application stays easy to audit.
 - Keep this work on `codex/agentcity-desktop-local` until it is reviewed.
 - Verify that no private state, transcripts, credentials, or machine-specific paths are committed.
 - Add packaging documentation and an example configuration without secrets.
-- Push only source code and public assets to the user's private GitHub repository.
+- Push only source code and public assets to the user's fork; keep local working notes private.
 - Create the remote repository or push to it only after GitHub authentication and the destination
   repository are available.
 

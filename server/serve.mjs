@@ -77,5 +77,5 @@ export function startServer({ port = DEFAULT_PORT, host = DEFAULT_HOST } = {}) {
 const isDirectRun = process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url
 if (isDirectRun) {
   const { url } = await startServer()
-  console.log(`Bot Crossing → ${url}`)
+  console.log(`AgentCity → ${url}`)
 }

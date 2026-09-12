@@ -1,18 +1,28 @@
 {
   "name": "bot-crossing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
-  "description": "A 3D colony sim where every coding-agent thread on your machine is a little astronaut building something.",
+  "description": "An independent desktop fork of Bot Crossing that turns local coding-agent threads into a 3D colony.",
   "license": "MIT",
-  "author": "Jarren Rocks",
-  "homepage": "https://botcrossing.com",
+  "author": {
+    "name": "Adrian Martin",
+    "url": "https://github.com/AdrimbMB"
+  },
+  "contributors": [
+    {
+      "name": "Jarren Rocks",
+      "url": "https://jarren.rocks"
+    }
+  ],
+  "copyright": "Copyright © 2026 Jarren Rocks and AgentCity contributors",
+  "homepage": "https://github.com/AdrimbMB/bot-crossing",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jarrenrocks/bot-crossing.git"
+    "url": "git+https://github.com/AdrimbMB/bot-crossing.git"
   },
   "bugs": {
-    "url": "https://github.com/jarrenrocks/bot-crossing/issues"
+    "url": "https://github.com/AdrimbMB/bot-crossing/issues"
   },
   "keywords": [
     "claude-code",
@@ -38,27 +48,31 @@
     "serve": "node server/serve.mjs",
     "assets": "node tools/build-assets.mjs",
     "test": "node --test \"test/**/*.test.mjs\"",
+    "check": "npm test && npm run build && npm audit --audit-level=high",
     "desktop:icons": "node desktop/build-icons.mjs",
     "desktop": "npm run build && electron desktop/main.mjs",
     "desktop:pack": "npm run build && electron-builder --dir",
-    "desktop:installer": "npm run build && electron-builder --win nsis"
+    "desktop:installer": "npm run build && electron-builder --win nsis",
+    "desktop:installer:signed": "npm run build && electron-builder --config desktop/electron-builder.signed.cjs --win nsis && powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File desktop/verify-signatures.ps1",
+    "desktop:store": "npm run desktop:icons && npm run build && electron-builder --config desktop/electron-builder.store.cjs --win appx --x64"
   },
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "three": "^0.185.0"
   },
   "devDependencies": {
-    "@gltf-transform/core": "^4.4.2",
-    "@gltf-transform/functions": "^4.4.2",
-    "electron": "^38.1.0",
-    "electron-builder": "^26.0.12",
-    "png-to-ico": "^3.0.1",
+    "@gltf-transform/core": "^4.5.0",
+    "@gltf-transform/functions": "^4.5.0",
+    "electron": "^44.3.0",
+    "electron-builder": "^26.15.3",
+    "png-to-ico": "^3.0.2",
     "rcedit": "^4.0.1",
-    "vite": "^7.1.0"
+    "sharp": "^0.35.4",
+    "vite": "^7.3.6"
   },
   "main": "desktop/main.mjs",
   "build": {
-    "appId": "com.stationsciences.agentcity",
+    "appId": "io.github.adrimbmb.agentcity",
     "productName": "AgentCity",
     "artifactName": "AgentCity-Setup-${version}.${ext}",
     "asar": true,
@@ -66,12 +80,21 @@
       "output": "release",
       "buildResources": "build"
     },
+    "toolsets": {
+      "winCodeSign": "1.1.0",
+      "nsis": "1.2.1"
+    },
     "files": [
       "dist/**/*",
       "desktop/**/*",
       "build/icon.png",
       "server/**/*",
       "package.json",
+      "LICENSE",
+      "NOTICE.md",
+      "PRIVACY.md",
+      "THIRD_PARTY_NOTICES.md",
+      "licenses/**/*",
       "!data/**/*",
       "!**/*.test.mjs"
     ],

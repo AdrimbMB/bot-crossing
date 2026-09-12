@@ -1,6 +1,11 @@
-# Bot Crossing — your agent threads, as a colony
+# AgentCity — your agent threads, as a colony
 
-**[botcrossing.com](https://botcrossing.com)**
+AgentCity is an independent desktop fork of
+**[Bot Crossing](https://github.com/Station-Sciences/bot-crossing)**, originally created by
+**[Jarren Rocks](https://jarren.rocks)**. The fork is maintained at
+**[AdrimbMB/bot-crossing](https://github.com/AdrimbMB/bot-crossing)** and is not affiliated with or
+endorsed by the original author or the makers of compatible agent tools. See [NOTICE.md](NOTICE.md),
+[PRIVACY.md](PRIVACY.md), and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 Every coding-agent thread on this machine is a little astronaut. They walk out of the ship, claim
 a plot for their repo, and build something. When one needs you it stops and holds a `?` over
@@ -29,21 +34,44 @@ second process. For a built version, `npm start` (build + serve) or `npm run ser
 
 ## Install the Windows desktop app
 
-Download `AgentCity-Setup-1.0.0.exe` from the GitHub release or build it with
+Download the latest verified AgentCity installer from the releases page or build it with
 `npm run desktop:installer`, then double-click it. The assisted installer needs no administrator
 access, lets you choose the destination, and adds Desktop and Start Menu shortcuts. The app opens
 in its own window and starts its local server automatically; users do not need Node.js to run the
 installed application.
 
-Windows may show a SmartScreen warning because this first installer is not code-signed. AgentCity
-works offline, sends no telemetry, and stores writable colony state in the current Windows user's
-application-data folder. Existing agent tools such as Codex, Claude Code, and Cursor remain
-separate installations.
+The current `1.0.0` GitHub installer is not code-signed, so Windows may show a SmartScreen warning.
+Public releases should use `npm run desktop:installer:signed`; that command refuses to complete
+unless the app and installer receive a valid Authenticode signature and trusted timestamp. A new
+signed publisher can still receive a temporary reputation warning. Microsoft Store distribution
+is the route for consistently avoiding the SmartScreen download warning. See
+[CODE_SIGNING.md](CODE_SIGNING.md) for the release setup.
+
+AgentCity works offline, sends no telemetry, and stores writable colony state in the current
+Windows user's application-data folder. Existing agent tools such as Codex, Claude Code, and
+Cursor remain separate installations.
 
 For development, `npm run desktop` opens the native app. `npm run desktop:icons` regenerates the
 Windows `.ico` from the checked-in PNG master. Packaging scope is in
 [DESKTOP_PACKAGING_PLAN.md](DESKTOP_PACKAGING_PLAN.md), and the decisions behind it are recorded
 in [ARCHITECTURE_DESKTOP.md](ARCHITECTURE_DESKTOP.md).
+
+### Microsoft Store package
+
+After reserving AgentCity in Partner Center, set the three non-secret identity values supplied by
+Microsoft and run `npm run desktop:store`:
+
+- `AGENTCITY_STORE_IDENTITY_NAME`
+- `AGENTCITY_STORE_PUBLISHER`
+- `AGENTCITY_STORE_PUBLISHER_DISPLAY_NAME`
+
+The command creates `release/AgentCity-Store-<version>-x64.appx`. Do not guess these values: the
+package submitted for certification must exactly match the product identity in Partner Center.
+The Store build requires the Windows 10/11 SDK and discovers its newest x64 tools automatically;
+`AGENTCITY_WINDOWS_SDK_BIN` can point to a specific SDK `bin/<version>/x64` directory when needed.
+See [PUBLICATION_DUE_DILIGENCE.md](PUBLICATION_DUE_DILIGENCE.md) for the complete release gates and
+[PUBLISHING_HANDOFF.md](PUBLISHING_HANDOFF.md) for the publisher-owned final steps. Reusable website
+and LinkedIn copy is in [WEBSITE_CONTENT.md](WEBSITE_CONTENT.md).
 
 **macOS, Linux and Windows.** Opening a thread, revealing a folder and starting a new session
 all go through a `harness://` deep link handed to the OS opener — `open(1)` on macOS,
@@ -692,9 +720,13 @@ not you build anything like this:
 
 ## Who made this
 
-Built by **[Jarren Rocks](https://jarren.rocks)**, mostly as a side effect of building
+Bot Crossing was built by **[Jarren Rocks](https://jarren.rocks)**, mostly as a side effect of building
 **[Emra](https://emra.app)** — which is where most of the threads in the screenshots come from,
 and why a tool for keeping track of a lot of them at once existed in the first place.
+
+The AgentCity desktop fork and its Windows packaging are maintained by
+**[Adrian Martin](https://github.com/AdrimbMB)**. This is an independent fork, not an official
+continuation or endorsement by the original author.
 
 ## Licence
 

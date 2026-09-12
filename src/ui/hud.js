@@ -905,7 +905,7 @@ function ago(ts) {
 const TEMPLATE = `
 <aside class="side panel">
   <header class="brandbar">
-    <div class="brand"><i class="dot"></i>Bot Crossing</div>
+    <div class="brand"><i class="dot"></i>AgentCity</div>
     <button class="btn icon ghost" id="btn-shot" title="Screenshot (P)">${ICON.camera}</button>
     <button class="btn icon ghost" id="btn-help" title="Help (?)">${ICON.help}</button>
     <button class="btn icon ghost" id="btn-hide" title="Hide all UI (H)">${ICON.eye}</button>
@@ -988,7 +988,7 @@ const TEMPLATE = `
 
 <div class="help">
   <div class="sheet panel">
-    <h2>Bot Crossing</h2>
+    <h2>AgentCity <span class="version">v${__APP_VERSION__}</span></h2>
     <p class="sub">Every coding-agent thread on this machine is an astronaut. They walk out of the ship, claim a plot for their repo, and build. Click one to open its thread; click a zone — its deck or its name — for the repo itself, and start a new conversation there. Hide a repo from that panel if you would rather not see it — its threads stay in your harness, and you can show it again from the list. Navigation works like Google Earth — drag the ground itself, right-drag to tilt, scroll to zoom in on whatever is under the cursor.</p>
     <div class="cols">
       <div>
@@ -1021,6 +1021,11 @@ const TEMPLATE = `
       <div class="legend-row"><i class="badge" style="background:#16301f;color:#7fd39a">⚒</i> running right now, building</div>
       <div class="legend-row"><i class="badge" style="background:#332b12;color:#e6c67f">✓</i> its pull request landed</div>
       <div class="legend-row"><i class="badge" style="background:#1d1f2e;color:#a9a8c0">z</i> nothing for three days</div>
+    </div>
+    <div class="about-note">
+      <strong>Independent open-source fork</strong>
+      <p>AgentCity is an independent desktop fork of <a href="https://github.com/Station-Sciences/bot-crossing" target="_blank" rel="noreferrer">Bot Crossing</a>, originally created by Jarren Rocks. It is not affiliated with or endorsed by OpenAI, Anthropic, Cursor, or the original author.</p>
+      <p>Agent data is read locally and is not uploaded. Source, privacy information, licences, and notices are available in the <a href="https://github.com/AdrimbMB/bot-crossing" target="_blank" rel="noreferrer">AgentCity repository</a>.</p>
     </div>
     <div style="margin-top:18px;display:flex;justify-content:flex-end">
       <button class="btn primary" id="btn-help-close">Got it</button>

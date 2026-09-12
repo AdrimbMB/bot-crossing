@@ -17,6 +17,12 @@ assets-src
 
 .DS_Store
 *.log
+.env
+.env.*
+!.env.example
+
+# Private working notes; never publish or package this file.
+MODEL.md
 
 # Local capture output — not part of the project.
 recordings

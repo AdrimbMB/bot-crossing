@@ -10,10 +10,10 @@ module.exports = async function afterPack(context) {
     'file-version': context.packager.appInfo.version,
     'product-version': context.packager.appInfo.version,
     'version-string': {
-      CompanyName: 'Station Sciences',
+      CompanyName: 'AgentCity Contributors',
       FileDescription: 'AgentCity',
       ProductName: 'AgentCity',
-      LegalCopyright: 'MIT licensed',
+      LegalCopyright: 'Copyright © 2026 Jarren Rocks and AgentCity contributors (MIT)',
       OriginalFilename: 'AgentCity.exe',
     },
   })
